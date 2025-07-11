@@ -115,12 +115,12 @@
       <footer class="footer">
         <p class="footer__copyright">2025 © Spots</p>
       </footer>
-      <div class="modal modal_is-opened">
+      <div class="modal ">
         <div class="modal__container">
           <button type="button" class="modal__close-btn"></button>
           <h2 class="modal__title">Edit Profile</h2>
           <form class="modal__form">
-            <label for="profie-description-input" class="modal__label">
+            <label for="profile-name-input" class="modal__label">
               Name
              <input
                 id="profile-name-input"
@@ -130,7 +130,7 @@
                 required
               />
             </label>
-            <label for="profie-description-input" class="modal__label">
+            <label for="profile-description-input" class="modal__label">
               Description
               <input 
                 id="profile-description-input" 
@@ -141,10 +141,11 @@
              />
             </label>
             <button type="submit" class="modal__save-btn">Save</button>
-          </div>
-          </div>
-         <div class="modal">
-         <div class="modal__container">
+          </form>
+        </div>
+      </div>
+      <div class="modal">
+        <div class="modal__container">
           <button type="button" class="modal__close-btn"></button>
           <h2 class="modal__title">New post</h2>
           <form class="modal__form">
@@ -169,6 +170,7 @@
              />
             </label>
             <button type="submit" class="modal__save-btn">Save</button>
+          </form>
         </div>
       </div>
     </div>
