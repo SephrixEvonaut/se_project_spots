@@ -1,4 +1,5 @@
 .modal {
+    transition: visibility 0.3s ease-in-out, opacity 0.3s ease-in-out;
     visibility: hidden;
     background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
@@ -14,10 +15,12 @@
 }
 
 .modal_is-opened {
+    transition: visibility 0.3s, opacity 0.3s ease-in;
     visibility: visible;
 }
 
 .modal__container {
+    box-sizing: border-box;
     max-width: 730px;
     width: 100%;
     border-radius: 8px;
@@ -27,6 +30,7 @@
 }
 
 .modal__close-btn {
+    cursor:pointer;
     background-image:url(../images/Group27.png);
     position: absolute;
     top: 32px;
@@ -54,6 +58,7 @@
 }
 
 .modal__input {
+  box-sizing: border-box;
   display: block;
   margin: 8px 0 0;
   width: 100%;
@@ -70,6 +75,7 @@
 }
 
 .modal__save-btn {
+    cursor: pointer;
     border-radius: 8px;
     max-width: 156px;
     width: 100%;
@@ -84,8 +90,22 @@
     .modal__title {
         font-size: 20px;
     }
+
     .modal__save-btn {
         max-width: none;
         width: 100%;
     }
+
+    .modal__container {padding: 22px 12px 12px;
+    }
+
+    .modal__input {
+        font-size: 16px;
+    }
+
+    .modal__close-btn {
+        top: 12px;
+        right: 12px;
+    }
+
 }
