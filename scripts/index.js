@@ -23,7 +23,7 @@ const initialCards = [
     name: "Mountain house",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",  
   },
-]
+];
 
 // buttons
 const editButton = document.querySelector(".profile__edit-button");
@@ -98,4 +98,4 @@ initialCards.forEach(function(item){
     console.log(item.name);
     console.log(item.link); 
 
-})
+});
