@@ -40,76 +40,24 @@
         </section>
         <section class="cards page__section">
           <ul class="cards__list">
+            <template Id="card-template">
+              
             <li class="card">
-              <img
-                src="images/1-photo-by-moritz-feldmann-from-pexels.jpg"
-                alt="Val Thorens' image"
+                            <img
+                src=""
+                alt=""
                 class="card__image"
               />
-              <div class="card__content">
-                <h2 class="card__title">Val Thorens</h2>
-                <button type="button" class="card__like-button"></button>
-              </div>
-            </li>
-            <li class="card">
-              <img
-                src="images/2-photo-by-ceiline-from-pexels.jpg"
-                alt="Restaraunt terrace image"
-                class="card__image"
-              />
-              <div class="card__content">
-                <h2 class="card__title">Restaraunt terrace</h2>
-                <button type="button" class="card__like-button"></button>
-              </div>
-            </li>
-            <li class="card">
-              <img
-                src="images/3-photo-by-tubanur-dogan-from-pexels.jpg"
-                alt="an outdoor cafe image"
-                class="card__image"
-              />
-              <div class="card__content">
-                <h2 class="card__title">an outdoor cafe</h2>
-                <button type="button" class="card__like-button"></button>
-              </div>
-            </li>
+              <button type="button" class="card__delete-button"></button>
 
-            <li class="card">
-              <img
-                src="images/4-photo-by-maurice-laschet-from-pexels.jpg"
-                alt="a very long bridge over the forest image"
-                class="card__image"
-              />
               <div class="card__content">
-                <h2 class="card__title">a very long bridge over the forest</h2>
+                <h2 class="card__title"></h2>
                 <button type="button" class="card__like-button"></button>
               </div>
+                                          
             </li>
-
-            <li class="card">
-              <img
-                src="images/5-photo-by-van-anh-nguyen-from-pexels.jpg"
-                alt=" Tunnel with morning light image"
-                class="card__image"
-              />
-              <div class="card__content">
-                <h2 class="card__title">Tunnel with morning light</h2>
-                <button type="button" class="card__like-button"></button>
-              </div>
-            </li>
-
-            <li class="card">
-              <img
-                src="images/6-photo-by-moritz-feldmann-from-pexels.jpg"
-                alt="Mountain House's image"
-                class="card__image"
-              />
-              <div class="card__content">
-                <h2 class="card__title">Mountain House</h2>
-                <button type="button" class="card__like-button"></button>
-              </div>
-            </li>
-          </ul>
+            </template>
+            </ul>
         </section>
       </main>
       <footer class="footer">
@@ -174,6 +122,15 @@
         </div>
       </div>
     </div>
+<div class="modal modal_type_preview" id="preview-image-modal">
+   <div class="modal__image-container">
+          <button type="button" class="modal__close-btn_type_preview "></button>
+          <img src="https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg" 
+          alt="" class="modal__image" />
+          <p class="modal__caption"></p>
+   </div>
+</div>
+
     <script defer src="./scripts/index.js"></script>
 
   </body>
