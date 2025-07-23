@@ -13,7 +13,7 @@
     <title>Spots</title>
     <link rel="stylesheet" href="./pages/index.css" />
   </head>
-  <body>        
+  <body>
     <div class="page">
       <header class="header">
         <img src="images/Logo.svg" alt="header logo" class="header__logo" />
@@ -40,37 +40,31 @@
         </section>
         <section class="cards page__section">
           <ul class="cards__list">
-            <template Id="card-template">
-              
-            <li class="card">
-                            <img
-                src=""
-                alt=""
-                class="card__image"
-              />
-              <button type="button" class="card__delete-button"></button>
+            <template id="card-template">
+              <li class="card">
+                <img src="" alt="" class="card__image" />
+                <button type="button" class="card__delete-button"></button>
 
-              <div class="card__content">
-                <h2 class="card__title"></h2>
-                <button type="button" class="card__like-button"></button>
-              </div>
-                                          
-            </li>
+                <div class="card__content">
+                  <h2 class="card__title"></h2>
+                  <button type="button" class="card__like-button"></button>
+                </div>
+              </li>
             </template>
-            </ul>
+          </ul>
         </section>
       </main>
       <footer class="footer">
         <p class="footer__copyright">2025 © Spots</p>
       </footer>
-      <div class="modal " id="edit-profile-modal">
+      <div class="modal" id="edit-profile-modal">
         <div class="modal__container">
           <button type="button" class="modal__close-btn"></button>
           <h2 class="modal__title">Edit Profile</h2>
           <form class="modal__form">
             <label for="profile-name-input" class="modal__label">
               Name
-             <input
+              <input
                 id="profile-name-input"
                 type="text"
                 class="modal__input"
@@ -80,13 +74,13 @@
             </label>
             <label for="profile-description-input" class="modal__label">
               Description
-              <input 
-                id="profile-description-input" 
+              <input
+                id="profile-description-input"
                 type="text"
                 class="modal__input"
                 placeholder="Describe yourself"
                 required
-             />
+              />
             </label>
             <button type="submit" class="modal__save-btn">Save</button>
           </form>
@@ -99,7 +93,7 @@
           <form class="modal__form">
             <label for="card-image-input" class="modal__label">
               Image link
-             <input
+              <input
                 id="card-image-input"
                 type="url"
                 class="modal__input"
@@ -109,29 +103,31 @@
             </label>
             <label for="card-caption-input" class="modal__label">
               Caption
-              <input 
-                id="card-caption-input" 
+              <input
+                id="card-caption-input"
                 type="text"
                 class="modal__input"
                 placeholder="Type your caption"
                 required
-             />
+              />
             </label>
             <button type="submit" class="modal__save-btn">Save</button>
           </form>
         </div>
       </div>
     </div>
-<div class="modal modal_type_preview" id="preview-image-modal">
-   <div class="modal__image-container">
-          <button type="button" class="modal__close-btn_type_preview "></button>
-          <img src="https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg" 
-          alt="" class="modal__image" />
-          <p class="modal__caption"></p>
-   </div>
-</div>
+    <div class="modal modal_type_preview" id="preview-image-modal">
+      <div class="modal__image-container">
+        <button type="button" class="modal__close-btn_type_preview"></button>
+        <img
+          src="https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg"
+          alt=""
+          class="modal__image"
+        />
+        <p class="modal__caption"></p>
+      </div>
+    </div>
 
     <script defer src="./scripts/index.js"></script>
-
   </body>
 </html>
