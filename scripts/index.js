@@ -146,12 +146,11 @@ function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
   const inputValues = {
-    // <---- this isnt a function, its a variable for the current function. Specifically an object that tracks my data input added from new post modal
     name: nameInput.value,
-    link: linkInput.value, //wondering where these values came from? check your const variables from lines 50 and 51.
+    link: linkInput.value, 
   };
 
-  cardElement = getCardElement(inputValues); // <---- this is a function that returns a card element, which is then assigned to the variable cardElement
+  const cardElement = getCardElement(inputValues); // <---- this is a function that returns a card element, which is then assigned to the variable cardElement
   cardsList.prepend(cardElement);
   closeModal(newPostModal);
   evt.target.reset();
