@@ -28,6 +28,9 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
   },
 ];
+
+const modals = document.querySelectorAll(".modal"); 
+
 // image generation variables
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
@@ -67,10 +70,17 @@ const linkInput = newPostModal.querySelector("#card-image-input");
 // standard modal functionality
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
+  document.addEventListener("keydown", escapehandler);
+}
+
+function escapehandler (evt) {
+  if (evt.key = "escape")
+    {closeModal(document.querySelector(".modal_is-opened"))} 
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
+  document.removeEventListener("keydown", escapehandler);
 }
 
 // event listeners for like
@@ -119,10 +129,20 @@ editButton.addEventListener("click", function () {
   editProfileNameInput.value = profileNameEl.textContent;
   editProfileDescriptionInput.value = profileDescriptionEl.textContent;
   openModal(editModal);
+
+  resetValidation(editProfileForm, [editProfileNameInput, editProfileDescriptionInput], settings);
 });
 
 editCloseButton.addEventListener("click", function () {
   closeModal(editModal);
+});
+
+modals.forEach((modal) => {
+  modal.addEventListener("click", function (evt) {
+   if(evt.target === modal){
+    closeModal(modal);
+   }
+});
 });
 
 newPostButton.addEventListener("click", function () {
@@ -132,6 +152,7 @@ newPostButton.addEventListener("click", function () {
 newPostCloseButton.addEventListener("click", function () {
   closeModal(newPostModal);
 });
+
 
 function handleEditProfileSubmit(evt) {
   evt.preventDefault();

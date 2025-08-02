@@ -129,6 +129,13 @@
   color: #2121214d;
 }
 
+.modal__input_type_error {
+  border-color: #FF0000;
+  opacity: 60%;
+}
+
+
+
 .modal__save-btn {
   cursor: pointer;
   border-radius: 8px;
@@ -145,6 +152,31 @@
 .modal__save-btn:hover {
   opacity: 40%;
 }
+
+.modal__save-btn_disabled {
+  opacity: 50%;
+
+}
+
+
+
+
+.modal__error {
+  visibility: hidden;
+  display: block;
+  color: #FF0000;
+  opacity: 70%;
+  line-height: 1.1;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.modal__error_active {
+visibility: visible;
+
+}
+
 
 @media screen and (max-width: 627px) {
   .modal_type_preview {
