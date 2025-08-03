@@ -70,17 +70,17 @@ const linkInput = newPostModal.querySelector("#card-image-input");
 // standard modal functionality
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
-  document.addEventListener("keydown", escapehandler);
+  document.addEventListener("keydown", closeOnEscape);
 }
 
-function escapehandler (evt) {
-  if (evt.key = "escape")
+function closeOnEscape (evt) {
+  if (evt.key === "Escape")
     {closeModal(document.querySelector(".modal_is-opened"))} 
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
-  document.removeEventListener("keydown", escapehandler);
+  document.removeEventListener("keydown", closeOnEscape);
 }
 
 // event listeners for like
