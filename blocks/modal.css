@@ -130,11 +130,9 @@
 }
 
 .modal__input_type_error {
-  border-color: #FF0000;
+  border-color: #ff0000;
   opacity: 60%;
 }
-
-
 
 .modal__save-btn {
   cursor: pointer;
@@ -155,16 +153,12 @@
 
 .modal__save-btn_disabled {
   opacity: 50%;
-
 }
-
-
-
 
 .modal__error {
   visibility: hidden;
   display: block;
-  color: #FF0000;
+  color: #ff0000;
   opacity: 70%;
   line-height: 1.1;
   font-size: 16px;
@@ -173,10 +167,8 @@
 }
 
 .modal__error_active {
-visibility: visible;
-
+  visibility: visible;
 }
-
 
 @media screen and (max-width: 627px) {
   .modal_type_preview {
