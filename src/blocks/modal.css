@@ -38,6 +38,12 @@
   position: relative;
 }
 
+.modal__title-avatar {
+  font-size: 32px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
 .modal__caption {
   font-size: 20px;
   line-height: 1.2;
@@ -76,6 +82,20 @@
   opacity: 40%;
 }
 
+.modal__close-btn-delete-modal {
+  cursor: pointer;
+  background-image: url(../images/delete-close-btn.png);
+  position: absolute;
+  top: 0px;
+  right: -50px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  opacity: 100%;
+  color: #fff;
+}
+
 .modal__close-btn:hover {
   opacity: 100%;
 }
@@ -95,6 +115,64 @@
 
 .modal__close-btn_type_preview:hover {
   opacity: 40%;
+}
+
+.modal__delete__container {
+  transition: visibility 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+
+.modal__delete {
+  gap: 32px;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-size: 22px;
+  color: #212121;
+  background-color: #ffffff;
+  /* position: fixed; */
+  /* top: 30%;
+  bottom: 0;
+  left: 30%;
+  right: 0; */
+  position: relative;
+  width: 630px;
+  height: 172px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 20px 32px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.modal__delete-btn {
+  padding: 18px 32px;
+  background-color: #ff6565;
+  border-radius: 8px;
+}
+
+.modal__delete-cancel-btn {
+  padding: 18px 32px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+/*.modal__delete-btn_type_preview {
+}*/
+
+.modal__delete-btn-wrapper {
+  display: flex;
+  gap: 20px;
 }
 
 .modal__title {
@@ -144,15 +222,15 @@
   font-size: 16px;
   background-color: #212121;
   color: #fcf5e5;
-  opacity: 100%;
-}
-
-.modal__save-btn:hover {
-  opacity: 40%;
+  opacity: 90%;
 }
 
 .modal__save-btn_disabled {
   opacity: 50%;
+}
+
+.modal__save-btn:hover {
+  opacity: 40%;
 }
 
 .modal__error {
