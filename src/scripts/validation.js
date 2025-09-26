@@ -20,7 +20,7 @@ const checkInputValidity = (formElement, inputElement, settings) => {
   }
 };
 
-const resetValidation = (formElement, inputList, settings) => {
+export const resetValidation = (formElement, inputList, settings) => {
   inputList.forEach((input) => {
     hideInputError(formElement, input, settings);
   });

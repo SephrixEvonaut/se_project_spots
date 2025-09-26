@@ -1,6 +1,10 @@
 import Api from "../utils/Api.js";
 import "./index.css";
-import { enableValidation, settingsOriginal } from "../scripts/validation.js";
+import {
+  enableValidation,
+  settingsOriginal,
+  resetValidation,
+} from "../scripts/validation.js";
 import { setButtonText } from "../utils/helpers.js";
 
 // const initialCards = [
@@ -223,17 +227,22 @@ editAvatarbutton.addEventListener("click", function () {
 function handleEditProfileSubmit(evt) {
   console.log("calling profile function");
   evt.preventDefault();
-  profileNameEl.textContent = editProfileNameInput.value;
-  profileDescriptionEl.textContent = editProfileDescriptionInput.value;
-  let buttonElement = document.querySelector(".modal__save-btn");
+  const buttonElement = editProfileForm.querySelector(".modal__save-btn");
   setButtonText(buttonElement, true);
-  api.editUserInfo({
-    name: editProfileNameInput.value,
-    about: editProfileDescriptionInput.value,
-  });
-  setButtonText(buttonElement, false);
-  //  api call to edit in backend
-  closeModal(editModal);
+  api
+    .editUserInfo({
+      name: editProfileNameInput.value,
+      about: editProfileDescriptionInput.value,
+    })
+    .then(() => {
+      profileNameEl.textContent = editProfileNameInput.value;
+      profileDescriptionEl.textContent = editProfileDescriptionInput.value;
+
+      //  api call to edit in backend
+      closeModal(editModal);
+    })
+    .catch(console.error)
+    .finally(() => setButtonText(buttonElement, false));
 }
 
 function handleCardDelete(evt) {
@@ -262,6 +271,7 @@ function handleEditAvatarSubmit(evt) {
 
   const avatar = editAvatarLinkInput.value.trim();
   const imageElement = document.querySelector(".profile__avatar");
+
   const saveBtn = editAvatarForm.querySelector(".modal__save-btn");
 
   setButtonText(saveBtn, true);
@@ -269,6 +279,7 @@ function handleEditAvatarSubmit(evt) {
   api
     .editUserAvatar({ avatar })
     .then((user) => {
+      console.log(user);
       imageElement.src = user.avatar ?? avatar;
       closeModal(editAvatarModal);
       editAvatarForm.reset();
@@ -288,19 +299,24 @@ function handleAddCardSubmit(evt) {
     name: nameInput.value,
     link: linkInput.value,
   };
+  let buttonElement = document.querySelector(".modal__save-btn");
   let card_list = document.querySelectorAll(".card");
   let length = card_list.length;
-
-  console.log(card_list, card_list.length);
-  api.addCard(inputValues).then((res) => {
-    const cardElement = getCardElement(res); // <---- this is a function that returns a card element, which is then assigned to the variable cardElement
-    cardsList.prepend(cardElement);
-  });
-  // also need to do it in api
-
-  let buttonElement = document.querySelector(".modal__save-btn");
   setButtonText(buttonElement, true);
-  closeModal(newPostModal);
+  console.log(card_list, card_list.length);
+  api
+    .addCard(inputValues)
+    .then((res) => {
+      const cardElement = getCardElement(res); // <---- this is a function that returns a card element, which is then assigned to the variable cardElement
+      cardsList.prepend(cardElement);
+      closeModal(newPostModal);
+    })
+    // also need to do it in api
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(buttonElement, false);
+    });
+
   evt.target.reset();
 }
 
@@ -312,9 +328,14 @@ api.getInitialCards().then((res) => {
   });
 });
 
-api.getAppInfo().then((result) => {
-  console.log(result);
-  result.forEach((card) => {
+api.getAppInfo().then(([userInfo, cards]) => {
+  console.log(userInfo);
+  const imageElement = document.querySelector(".profile__avatar");
+  imageElement.src = userInfo.avatar;
+  profileNameEl.textContent = userInfo.name;
+  profileDescriptionEl.textContent = userInfo.about;
+
+  cards.forEach((card) => {
     const cardElement = getCardElement(card);
 
     cardsList.append(cardElement);
