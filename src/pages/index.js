@@ -5,7 +5,7 @@ import {
   settingsOriginal,
   resetValidation,
 } from "../scripts/validation.js";
-import { setButtonText } from "../utils/helpers.js";
+import { setButtonText, wait } from "../utils/helpers.js";
 
 // const initialCards = [
 //   {
@@ -147,19 +147,21 @@ function getCardElement(data, index) {
     console.log(e.target.id);
     currentCardId = e.target.id;
     openModal(deleteModal);
+  });
 
-    let id = e.target.id;
-    // cardElement.remove();
-    modalDeleteBtn.addEventListener("click", () => {
-      console.log(deleteModal);
-      closeModal(deleteModal);
-      console.log(currentCardId);
+  modalDeleteBtn.addEventListener("click", () => {
+    if (!currentCardId) return;
 
-      let cardElementDelete = document.getElementById(`${id}`);
-      console.log(cardElementDelete);
-      api.deleteCards({ isLiked: false, _id: currentCardId });
-      cardElementDelete.remove();
-    });
+    const cardElementDelete = document.getElementById(currentCardId);
+
+    api
+      .deleteCards({ isLiked: false, _id: currentCardId })
+      .then(() => {
+        if (cardElementDelete) cardElementDelete.remove();
+        closeModal(deleteModal);
+        currentCardId = null;
+      })
+      .catch(console.error);
   });
 
   const handleLike = (evt, data) => {
@@ -174,6 +176,8 @@ function getCardElement(data, index) {
   };
 
   modalCancelBtn.addEventListener("click", () => {
+    currentCardId = null;
+
     console.log(deleteModal);
     closeModal(deleteModal);
   });
@@ -224,11 +228,12 @@ editAvatarbutton.addEventListener("click", function () {
   openModal(editAvatarModal);
 });
 
-function handleEditProfileSubmit(evt) {
+async function handleEditProfileSubmit(evt) {
   console.log("calling profile function");
   evt.preventDefault();
   const buttonElement = editProfileForm.querySelector(".modal__save-btn");
   setButtonText(buttonElement, true);
+  await wait(1000);
   api
     .editUserInfo({
       name: editProfileNameInput.value,
@@ -240,18 +245,19 @@ function handleEditProfileSubmit(evt) {
 
       //  api call to edit in backend
       closeModal(editModal);
+      setButtonText(buttonElement, false);
     })
-    .catch(console.error)
-    .finally(() => setButtonText(buttonElement, false));
+    .catch(console.error);
 }
 
-function handleCardDelete(evt) {
+async function handleCardDelete(evt) {
   console.log("calling profile function");
   evt.preventDefault();
   nameInput.textContent = nameInput.value;
   linkInput.src = linkInput.value;
   let buttonElement = document.querySelector(".modal__save-btn");
   setButtonText(buttonElement, true);
+  await wait(1000);
   api.editUserInfo({
     name: editProfileNameInput.value,
     about: editProfileDescriptionInput.value,
@@ -266,16 +272,16 @@ console.log("editprofileform", editProfileForm);
 
 editProfileForm.addEventListener("submit", handleEditProfileSubmit);
 
-function handleEditAvatarSubmit(evt) {
+async function handleEditAvatarSubmit(evt) {
   evt.preventDefault();
 
   const avatar = editAvatarLinkInput.value.trim();
   const imageElement = document.querySelector(".profile__avatar");
 
-  const saveBtn = editAvatarForm.querySelector(".modal__save-btn");
+  const buttonElement = editAvatarForm.querySelector(".modal__save-btn");
 
-  setButtonText(saveBtn, true);
-
+  setButtonText(buttonElement, true);
+  await wait(1000);
   api
     .editUserAvatar({ avatar })
     .then((user) => {
@@ -287,22 +293,23 @@ function handleEditAvatarSubmit(evt) {
     .catch((err) => {
       console.error("Failed to update avatar:", err);
     })
-    .finally(() => setButtonText(saveBtn, false));
+    .finally(() => setButtonText(buttonElement, false));
 }
 
 editAvatarForm.addEventListener("submit", handleEditAvatarSubmit);
 
-function handleAddCardSubmit(evt) {
+async function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
   const inputValues = {
     name: nameInput.value,
     link: linkInput.value,
   };
-  let buttonElement = document.querySelector(".modal__save-btn");
+  let buttonElement = document.querySelectorAll(".modal__save-btn")[1];
   let card_list = document.querySelectorAll(".card");
   let length = card_list.length;
   setButtonText(buttonElement, true);
+  await wait(1000);
   console.log(card_list, card_list.length);
   api
     .addCard(inputValues)
@@ -321,12 +328,18 @@ function handleAddCardSubmit(evt) {
 }
 
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
-api.getInitialCards().then((res) => {
-  res.forEach((card, index) => {
-    const cardElement = getCardElement(card, index);
-    cardsList.append(cardElement);
-  });
-});
+// api.getInitialCards().then((res) => {
+//   console.log(res);
+//   console.log("before append", cardsList);
+//   res.forEach((card, index) => {
+//     // Check if element with this ID already exists
+//     if (!document.getElementById(card._id)) {
+//       const cardElement = getCardElement(card, index);
+//       cardsList.append(cardElement);
+//     }
+//   });
+//   console.log("after append", cardsList);
+// });
 
 api.getAppInfo().then(([userInfo, cards]) => {
   console.log(userInfo);
@@ -334,12 +347,13 @@ api.getAppInfo().then(([userInfo, cards]) => {
   imageElement.src = userInfo.avatar;
   profileNameEl.textContent = userInfo.name;
   profileDescriptionEl.textContent = userInfo.about;
-
+  console.log(cards);
   cards.forEach((card) => {
     const cardElement = getCardElement(card);
 
     cardsList.append(cardElement);
   });
+  console.log(cardsList);
 });
 
 // api.deleteInitialCards();

@@ -20,12 +20,12 @@ class Api {
   }
 
   getUserData() {
-    return fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: "GET", // Or GET, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "87951084-7ce3-4dbf-9da4-614a45cf5e07",
-      },
+      headers: this._headers,
+      //   "Content-Type": "application/json",
+      //   Authorization: "87951084-7ce3-4dbf-9da4-614a45cf5e07",
+      //
     }).then(this._handleServerResponse);
   }
 
