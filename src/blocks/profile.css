@@ -30,6 +30,10 @@
   max-width: 420px;
 }
 
+.avatar__container {
+  position: relative;
+}
+
 .profile__subtitle {
   margin: 0;
   opacity: 70%;
@@ -64,6 +68,36 @@
 .profile__edit-button:hover {
   opacity: 100%;
 }
+
+.avatar__edit-button {
+  /* margin-top: auto;
+  margin-right: auto; */
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 12px;
+  justify-content: center;
+  position: absolute;
+  gap: 8px;
+  opacity: 100%;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  visibility: hidden;
+}
+
+.avatar__container:hover .avatar__edit-button {
+  visibility: visible;
+}
+
 
 .profile__new-post-button {
   margin-left: auto;
