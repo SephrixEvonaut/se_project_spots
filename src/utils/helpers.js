@@ -14,6 +14,8 @@ export function setButtonText(
 
 }
 
-export function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+// export function wait(ms) {
+//     return new Promise(resolve => setTimeout(resolve, ms));
+// }
+
+  // ^^^in case ppl cant read "saving" TURN HANDLE FUNCS ASYNC... apply await wait(1000);

@@ -149,21 +149,6 @@ function getCardElement(data, index) {
     openModal(deleteModal);
   });
 
-  modalDeleteBtn.addEventListener("click", () => {
-    if (!currentCardId) return;
-
-    const cardElementDelete = document.getElementById(currentCardId);
-
-    api
-      .deleteCards({ isLiked: false, _id: currentCardId })
-      .then(() => {
-        if (cardElementDelete) cardElementDelete.remove();
-        closeModal(deleteModal);
-        currentCardId = null;
-      })
-      .catch(console.error);
-  });
-
   const handleLike = (evt, data) => {
     console.log(data);
     const isLiked = evt.target.classList.contains("card__like-button_active");
@@ -175,13 +160,6 @@ function getCardElement(data, index) {
       .catch(console.error);
   };
 
-  modalCancelBtn.addEventListener("click", () => {
-    currentCardId = null;
-
-    console.log(deleteModal);
-    closeModal(deleteModal);
-  });
-
   cardImage.addEventListener("click", () => {
     previewImage.src = data.link;
     previewImage.alt = data.name;
@@ -192,6 +170,28 @@ function getCardElement(data, index) {
 
   return cardElement;
 }
+
+modalDeleteBtn.addEventListener("click", () => {
+  if (!currentCardId) return;
+
+  const cardElementDelete = document.getElementById(currentCardId);
+
+  api
+    .deleteCards({ isLiked: false, _id: currentCardId })
+    .then(() => {
+      if (cardElementDelete) cardElementDelete.remove();
+      closeModal(deleteModal);
+      currentCardId = null;
+    })
+    .catch(console.error);
+});
+
+modalCancelBtn.addEventListener("click", () => {
+  currentCardId = null;
+
+  console.log(deleteModal);
+  closeModal(deleteModal);
+});
 
 //event listeners
 editButton.addEventListener("click", function () {
@@ -228,12 +228,13 @@ editAvatarbutton.addEventListener("click", function () {
   openModal(editAvatarModal);
 });
 
-async function handleEditProfileSubmit(evt) {
+function handleEditProfileSubmit(evt) {
   console.log("calling profile function");
   evt.preventDefault();
   const buttonElement = editProfileForm.querySelector(".modal__save-btn");
   setButtonText(buttonElement, true);
-  await wait(1000);
+
+  // await wait(1000); in case ppl cant read "saving"
   api
     .editUserInfo({
       name: editProfileNameInput.value,
@@ -245,34 +246,17 @@ async function handleEditProfileSubmit(evt) {
 
       //  api call to edit in backend
       closeModal(editModal);
-      setButtonText(buttonElement, false);
     })
+    .finally(() => setButtonText(buttonElement, false))
+
     .catch(console.error);
-}
-
-async function handleCardDelete(evt) {
-  console.log("calling profile function");
-  evt.preventDefault();
-  nameInput.textContent = nameInput.value;
-  linkInput.src = linkInput.value;
-  let buttonElement = document.querySelector(".modal__save-btn");
-  setButtonText(buttonElement, true);
-  await wait(1000);
-  api.editUserInfo({
-    name: editProfileNameInput.value,
-    about: editProfileDescriptionInput.value,
-  });
-  setButtonText(buttonElement, false);
-
-  //  api call to edit in backend
-  closeModal(editModal);
 }
 
 console.log("editprofileform", editProfileForm);
 
 editProfileForm.addEventListener("submit", handleEditProfileSubmit);
 
-async function handleEditAvatarSubmit(evt) {
+function handleEditAvatarSubmit(evt) {
   evt.preventDefault();
 
   const avatar = editAvatarLinkInput.value.trim();
@@ -281,7 +265,8 @@ async function handleEditAvatarSubmit(evt) {
   const buttonElement = editAvatarForm.querySelector(".modal__save-btn");
 
   setButtonText(buttonElement, true);
-  await wait(1000);
+
+  // await wait(1000); in case ppl cant read "saving"
   api
     .editUserAvatar({ avatar })
     .then((user) => {
@@ -290,26 +275,27 @@ async function handleEditAvatarSubmit(evt) {
       closeModal(editAvatarModal);
       editAvatarForm.reset();
     })
+    .finally(() => setButtonText(buttonElement, false))
+
     .catch((err) => {
       console.error("Failed to update avatar:", err);
-    })
-    .finally(() => setButtonText(buttonElement, false));
+    });
 }
 
 editAvatarForm.addEventListener("submit", handleEditAvatarSubmit);
 
-async function handleAddCardSubmit(evt) {
+function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
   const inputValues = {
     name: nameInput.value,
     link: linkInput.value,
   };
-  let buttonElement = document.querySelectorAll(".modal__save-btn")[1];
+  let buttonElement = document.querySelector("#modal__save-second-btn");
   let card_list = document.querySelectorAll(".card");
   let length = card_list.length;
   setButtonText(buttonElement, true);
-  await wait(1000);
+  // await wait(1000); in case ppl cant read "saving"
   console.log(card_list, card_list.length);
   api
     .addCard(inputValues)
@@ -317,14 +303,13 @@ async function handleAddCardSubmit(evt) {
       const cardElement = getCardElement(res); // <---- this is a function that returns a card element, which is then assigned to the variable cardElement
       cardsList.prepend(cardElement);
       closeModal(newPostModal);
+      evt.target.reset();
     })
     // also need to do it in api
-    .catch(console.error)
     .finally(() => {
       setButtonText(buttonElement, false);
-    });
-
-  evt.target.reset();
+    })
+    .catch(console.error);
 }
 
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
@@ -341,20 +326,24 @@ addCardFormElement.addEventListener("submit", handleAddCardSubmit);
 //   console.log("after append", cardsList);
 // });
 
-api.getAppInfo().then(([userInfo, cards]) => {
-  console.log(userInfo);
-  const imageElement = document.querySelector(".profile__avatar");
-  imageElement.src = userInfo.avatar;
-  profileNameEl.textContent = userInfo.name;
-  profileDescriptionEl.textContent = userInfo.about;
-  console.log(cards);
-  cards.forEach((card) => {
-    const cardElement = getCardElement(card);
+api
+  .getAppInfo()
+  .then(([userInfo, cards]) => {
+    const imageElement = document.querySelector(".profile__avatar");
+    imageElement.src = userInfo.avatar;
+    profileNameEl.textContent = userInfo.name;
+    profileDescriptionEl.textContent = userInfo.about;
 
-    cardsList.append(cardElement);
+    cards.forEach((card) => {
+      const cardElement = getCardElement(card);
+      cardsList.append(cardElement);
+    });
+
+    console.log(cardsList); // fine by itself
+  })
+  .catch((err) => {
+    console.error("Failed to initialize app:", err);
   });
-  console.log(cardsList);
-});
 
 // api.deleteInitialCards();
 enableValidation(settingsOriginal);
